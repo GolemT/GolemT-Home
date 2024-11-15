@@ -3,7 +3,7 @@
 To run the docker image first
 
 ```bash
-    docker-compose up --build
+    docker-compose up --build --no-cache
 ```
 
 To clean up after:

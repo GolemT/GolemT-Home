@@ -9,10 +9,12 @@ RUN git clone https://gitlab.com/GolemT-Development/kochservice/angular_frontend
 
 # Wechsle ins Verzeichnis und installiere die Abhängigkeiten
 RUN npm install -g pnpm
-RUN cd angular_frontend && pnpm install
 
 # Setze das Arbeitsverzeichnis für den laufenden Container
 WORKDIR /app/angular_frontend
+
+RUN git pull && pnpm install
+
 
 # Build der App erstellen
 RUN pnpm build --configuration production 

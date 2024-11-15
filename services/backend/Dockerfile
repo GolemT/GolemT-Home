@@ -9,11 +9,11 @@ RUN yum install git -y
 # Klone das Repository
 RUN git clone https://gitlab.com/GolemT-Development/kochservice/Kochservice_Backend.git
 
-# Kopiere den Code
-RUN cd Kochservice_Backend && chmod +x ./gradlew && ./gradlew build
-
 # Setze das Arbeitsverzeichnis für den laufenden Container
 WORKDIR /app/Kochservice_Backend
+
+# Kopiere den Code
+RUN git pull && chmod +x ./gradlew && ./gradlew build
 
 # Starte die Anwendung
 CMD ["./gradlew", "bootRun"]
