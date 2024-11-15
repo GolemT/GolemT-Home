@@ -5,16 +5,17 @@ FROM node:latest
 WORKDIR /app
 
 # Klone das Repository
-RUN git clone https://github.com/GolemT/Kochservice.git
+RUN git clone https://gitlab.com/GolemT-Development/kochservice/angular_frontend.git
 
 # Wechsle ins Verzeichnis und installiere die Abhängigkeiten
-RUN cd Kochservice && npm install
+RUN npm install -g pnpm
+RUN cd angular_frontend && pnpm install
 
 # Setze das Arbeitsverzeichnis für den laufenden Container
-WORKDIR /app/Kochservice
+WORKDIR /app/angular_frontend
 
 # Build der App erstellen
-RUN npm run build
+RUN pnpm build
 
 # Starte die App
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
