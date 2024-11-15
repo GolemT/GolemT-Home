@@ -6,6 +6,8 @@ services:
       - "4200:4200"
     depends_on:
       - backend
+    networks:
+      - my-network
 
   backend:
     build:
@@ -14,6 +16,8 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    networks:
+      - my-network
 
   db:
     build:
@@ -27,6 +31,11 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - db-data:/var/lib/mysql
+    networks:
+      - my-network
 
 volumes:
   db-data:
+
+networks:
+  my-network:

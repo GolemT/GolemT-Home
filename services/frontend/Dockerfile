@@ -15,7 +15,7 @@ RUN cd angular_frontend && pnpm install
 WORKDIR /app/angular_frontend
 
 # Build der App erstellen
-RUN pnpm build
+RUN pnpm build --configuration production 
 
 # Starte die App
-CMD ["pnpm", "start"]
+CMD ["pnpm", "start", "--configuration", "production", "--host", "0.0.0.0"]
