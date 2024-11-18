@@ -18,6 +18,8 @@ services:
       - db
     networks:
       - my-network
+    environment:
+      - jwt-secret=${jwt-secret}
 
   db:
     build:
