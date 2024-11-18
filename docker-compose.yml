@@ -19,7 +19,7 @@ services:
     networks:
       - my-network
     environment:
-      - jwt_secret=${jwt_secret}
+      - JWT_SECRET=${JWT_SECRET}
 
   db:
     build:
