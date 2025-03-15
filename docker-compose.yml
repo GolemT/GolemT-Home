@@ -4,6 +4,7 @@ services:
       context: ./services/frontend
     ports:
       - "4200:4200"
+    restart: unless-stopped
     depends_on:
       - backend
     networks:
@@ -14,18 +15,23 @@ services:
       context: ./services/backend
     ports:
       - "8080:8080"
+    restart: unless-stopped
     depends_on:
       - db
     networks:
       - my-network
     environment:
       - JWT_SECRET=${JWT_SECRET}
+    volumes:
+    - ./services/backend/app.jar:/app/app.jar  # Host -> Container Mount
+    command: ["java", "-jar", "/app/app.jar"]
 
   db:
     build:
       context: ./services/db
     ports:
       - "3306:3306"
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: mydatabase
@@ -36,8 +42,25 @@ services:
     networks:
       - my-network
 
+  seaweedfs:
+    image: chrislusf/seaweedfs:latest
+    container_name: seaweedfs
+    restart: unless-stopped
+    ports:
+      - "9333:9333" # Master server
+      - "8081:8081" # Filer server
+      - "8082:8082" # Volume server
+    volumes:
+      - seaweed-data:/data  # Persistent storage for files
+      - seaweed-filer:/filer  # Persistent storage for filer metadata
+    networks:
+      - my-network
+    command: server -master.port=9333 -volume.port=8082 -filer.port=8081 -filer
+
 volumes:
   db-data:
+  seaweed-data:
+  seaweed-filer:
 
 networks:
   my-network:

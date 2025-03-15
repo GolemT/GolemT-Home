@@ -1,19 +1,14 @@
-# OpenJDK (ARMv7) für Raspberry Pi als Basis
+# Verwende ein schlankes JDK 21 Image
 FROM amazoncorretto:21
 
-# Erstelle Arbeitsverzeichnis
+# Setze Arbeitsverzeichnis
 WORKDIR /app
 
-RUN yum install git -y
+# Kopiere die zuvor gebaute JAR-Datei ins Image
+COPY app.jar app.jar
 
-# Klone das Repository
-RUN git clone https://gitlab.com/GolemT-Development/kochservice/Kochservice_Backend.git
-
-# Setze das Arbeitsverzeichnis für den laufenden Container
-WORKDIR /app/Kochservice_Backend
-
-# Kopiere den Code
-RUN git pull && chmod +x ./gradlew && ./gradlew build
+# Exponiere Port (falls notwendig)
+EXPOSE 8080
 
 # Starte die Anwendung
-CMD ["./gradlew", "bootRun"]
+CMD ["java", "-jar", "app.jar"]
